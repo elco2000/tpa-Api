@@ -1,0 +1,31 @@
+{
+  "name": "triple-problematiek-api",
+  "version": "1.0.0",
+  "description": "NodeJS Triple Problematiek server",
+  "main": "server.js",
+  "scripts": {
+    "test": "nyc --reporter=lcov mocha --reporter spec --exit test/**/*.test.js",
+    "start": "node server.js",
+    "sonar": "sonar-scanner"
+  },
+  "keywords": [
+    "Avans"
+  ],
+  "author": "Elco Mussert",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mysql": "^2.18.1",
+    "tracer": "^1.1.2"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "husky": "^4.2.5",
+    "mocha": "^7.2.0",
+    "nyc": "^15.0.1",
+    "prettier": "^2.0.5"
+  }
+}
