@@ -4,7 +4,7 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 3000;
 
-pp.use(function (req, res, next) {
+app.use(function (req, res, next) {
     res.status(404).send("Sorry dit kan niet gevonden worden!");
 });
 
