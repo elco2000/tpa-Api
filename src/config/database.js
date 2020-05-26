@@ -13,10 +13,5 @@ const pool = new Pool({
 const client = new Client({
     connectionString: connectionString,
 })
-client.connect()
-client.query('SELECT NOW()', (err, res) => {
-    console.log(err, res)
-    client.end()
-})
 
 module.exports = pool;
