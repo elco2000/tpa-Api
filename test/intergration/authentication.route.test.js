@@ -101,7 +101,7 @@ describe("1 Authenticatie", function () {
                 .send({
                   firstname: "Mark",
                   lastname: "Sander",
-                  email: "mark@gmail.com",
+                  email: "mArk@gmail.com",
                   password: "secret",
                 })
                 .end((err, res) => {
