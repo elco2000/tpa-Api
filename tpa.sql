@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 25 mei 2020 om 15:27
+-- Gegenereerd op: 26 mei 2020 om 11:20
 -- Serverversie: 10.4.11-MariaDB
 -- PHP-versie: 7.4.4
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `tpa`
 --
-CREATE DATABASE IF NOT EXISTS `tpa` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `tpa`;
 
 -- --------------------------------------------------------
 
@@ -29,7 +27,6 @@ USE `tpa`;
 -- Tabelstructuur voor tabel `role`
 --
 
-DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role` (
   `ID` int(11) NOT NULL,
   `name` varchar(32) NOT NULL
@@ -49,14 +46,23 @@ INSERT INTO `role` (`ID`, `name`) VALUES
 -- Tabelstructuur voor tabel `user`
 --
 
-DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `ID` int(11) NOT NULL,
   `First_Name` varchar(32) NOT NULL,
   `Last_Name` varchar(32) NOT NULL,
   `Email` varchar(32) NOT NULL,
-  `Password` char(64) NOT NULL
+  `Password` char(64) NOT NULL,
+  `RoleID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `user`
+--
+
+INSERT INTO `user` (`ID`, `First_Name`, `Last_Name`, `Email`, `Password`, `RoleID`) VALUES
+(10, 'Elco', 'Mussert', 'elcomussert@gmail.com', '1234', 1),
+(11, 'Jorik', 'Leemans', 'jorik@gmail.com', '123', 1),
+(12, 'Piet', 'Van der Velden', 'piet@gmail.com', '1234', 2);
 
 --
 -- Indexen voor geëxporteerde tabellen
@@ -74,7 +80,8 @@ ALTER TABLE `role`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`ID`),
-  ADD UNIQUE KEY `Email` (`Email`);
+  ADD UNIQUE KEY `Email` (`Email`),
+  ADD KEY `RoleID` (`RoleID`);
 
 --
 -- AUTO_INCREMENT voor geëxporteerde tabellen
@@ -90,7 +97,17 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT voor een tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- Beperkingen voor geëxporteerde tabellen
+--
+
+--
+-- Beperkingen voor tabel `user`
+--
+ALTER TABLE `user`
+  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`RoleID`) REFERENCES `role` (`ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
