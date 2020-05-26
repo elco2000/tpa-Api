@@ -19,9 +19,9 @@ module.exports = {
                             });
                         } else {
                             logger.info("Result from database: ");
-                            logger.info(rows);
+                            logger.info(rows.rows[0]);
 
-                            if (rows[0].Password === req.body.password) {
+                            if (rows.rows[0].Password === req.body.password) {
                                 logger.info("password = " + rows[0].Password);
                                 logger.info("passwords DID match, sending valid token");
                                 const payload = {
