@@ -6,19 +6,11 @@ const logger = require("../config/config").logger;
 
 module.exports = {
     login(req, res, next) {
-        pool.getConnection((err, connection) => {
-            if (err) {
-                logger.error("Error getting connection from pool");
-                res
-                    .status(500)
-                    .json({ error: err.toString(), datetime: new Date().toISOString() });
-            }
-            if (connection) {
-                connection.query(
-                    "SELECT `ID`, `First_Name`, `Last_Name`, `Email`, `Password` FROM `user` WHERE `Email` = ?",
+                pool.query(
+                    'SELECT "ID", "First_Name", "Last_Name", "Email", "Password" FROM "user" WHERE "Email" = ?',
                     [req.body.email],
                     (err, rows, fields) => {
-                        connection.release();
+                        // connection.release();
                         if (err) {
                             logger.error("Error: ", err.toString());
                             res.status(500).json({
@@ -54,8 +46,6 @@ module.exports = {
                         }
                     }
                 );
-            }
-        });
     },
 
     validateLogin(req, res, next) {
@@ -89,7 +79,7 @@ module.exports = {
                 req.body.email = req.body.email.toLowerCase();
 
                 pool.query(
-                    "INSERT INTO `user` (`First_Name`, `Last_Name`, `Email`, `Password`, `RoleID`) VALUES (?, ?, ?, ?, ?)",
+                    'INSERT INTO "user" ("First_Name", "Last_Name", "Email", "Password", "RoleID") VALUES (?, ?, ?, ?, ?)',
                     [firstname, lastname, email, password, 2],
                     (err, rows, fields) => {
                         if (err) {
