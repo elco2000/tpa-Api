@@ -22,14 +22,14 @@ module.exports = {
                             logger.info(rows.rows[0]);
 
                             if (rows.rows[0].Password === req.body.password) {
-                                logger.info("password = " + rows[0].Password);
+                                logger.info("password = " + rows.rows[0].Password);
                                 logger.info("passwords DID match, sending valid token");
                                 const payload = {
-                                    id: rows[0].ID,
+                                    id: rows.rows[0].ID,
                                 };
                                 const userinfo = {
                                     token: jwt.sign(payload, "secret", { expiresIn: "2h" }),
-                                    username: rows[0].First_Name + " " + rows[0].Last_Name,
+                                    username: rows.rows[0].First_Name + " " + rows.rows[0].Last_Name,
                                 };
                                 res.status(200).json(userinfo);
                             } else {
