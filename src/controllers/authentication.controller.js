@@ -92,7 +92,6 @@ module.exports = {
                     "INSERT INTO `user` (`First_Name`, `Last_Name`, `Email`, `Password`, `RoleID`) VALUES (?, ?, ?, ?, ?)",
                     [firstname, lastname, email, password, 2],
                     (err, rows, fields) => {
-                        connection.release();
                         if (err) {
                             logger.error("Error: " + err.toString());
                             res.status(400).json({
