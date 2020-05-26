@@ -21,11 +21,7 @@ module.exports = {
                             logger.info("Result from database: ");
                             logger.info(rows);
 
-                            if (
-                                rows &&
-                                rows.length === 1 &&
-                                rows[0].Password === req.body.password
-                            ) {
+                            if (rows[0].Password === req.body.password) {
                                 logger.info("password = " + rows[0].Password);
                                 logger.info("passwords DID match, sending valid token");
                                 const payload = {
