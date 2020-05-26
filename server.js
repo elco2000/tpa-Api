@@ -3,6 +3,10 @@ const logger = config.logger;
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 3000;
+const authenticationroutes = require("./src/routes/authentication.routes");
+
+app.use("/api", authenticationroutes);
+
 
 app.use(function (req, res, next) {
     res.status(404).send("Sorry dit kan niet gevonden worden!");
