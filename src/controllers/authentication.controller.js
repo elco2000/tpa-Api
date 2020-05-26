@@ -86,6 +86,7 @@ module.exports = {
             }
             if (connection) {
                 let { firstname, lastname, email, password } = req.body;
+                req.body.email = req.body.email.toLowerCase();
 
                 connection.query(
                     "INSERT INTO `user` (`First_Name`, `Last_Name`, `Email`, `Password`, `RoleID`) VALUES (?, ?, ?, ?, ?)",
