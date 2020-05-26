@@ -12,7 +12,7 @@ module.exports = {
                     (err, rows, fields) => {
                         // connection.release();
                         if (err) {
-                            logger.error("Error: ", err.toString());
+                            logger.error("Error: ", err);
                             res.status(500).json({
                                 error: err.toString(),
                                 datetime: new Date().toISOString(),
@@ -67,13 +67,6 @@ module.exports = {
         logger.info("register");
         logger.info(req.body);
 
-        // pool.getConnection((err, connection) => {
-        //     if (err) {
-        //         logger.error("Error getting connection from pool: " + err.toString());
-        //         res
-        //             .status(500)
-        //             .json({ error: ex.toString(), datetime: new Date().toISOString() });
-        //     }
             if (true) {
                 let { firstname, lastname, email, password } = req.body;
                 req.body.email = req.body.email.toLowerCase();
@@ -83,7 +76,7 @@ module.exports = {
                     [firstname, lastname, email, password, 2],
                     (err, rows, fields) => {
                         if (err) {
-                            logger.error("Error: " + err.toString());
+                            logger.error("Error: " + err);
                             res.status(400).json({
                                 error: "This username has already been taken.",
                                 datetime: new Date().toISOString(),
