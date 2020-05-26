@@ -9,7 +9,7 @@ module.exports = {
                 pool.query(
                     'SELECT "ID", "First_Name", "Last_Name", "Email", "Password" FROM "user" WHERE "Email" = $1',
                     [req.body.email],
-                    (err, rows, fields) => {
+                    (err, result, fields) => {
                         // connection.release();
                         if (err) {
                             logger.error("Error: ", err);
@@ -19,17 +19,17 @@ module.exports = {
                             });
                         } else {
                             logger.info("Result from database: ");
-                            logger.info(rows.rows[0]);
+                            logger.info(result.rows[0]);
 
-                            if (rows.rows[0].Password === req.body.password) {
-                                logger.info("password = " + rows.rows[0].Password);
+                            if (result.rows[0].Password === req.body.password) {
+                                logger.info("password = " + result.rows[0].Password);
                                 logger.info("passwords DID match, sending valid token");
                                 const payload = {
-                                    id: rows.rows[0].ID,
+                                    id: result.rows[0].ID,
                                 };
                                 const userinfo = {
                                     token: jwt.sign(payload, "secret", { expiresIn: "2h" }),
-                                    username: rows.rows[0].First_Name + " " + rows.rows[0].Last_Name,
+                                    username: result.rows[0].First_Name + " " + result.rows[0].Last_Name,
                                 };
                                 res.status(200).json(userinfo);
                             } else {
