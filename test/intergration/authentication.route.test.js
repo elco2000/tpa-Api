@@ -209,7 +209,7 @@ describe("1 Authenticatie", function () {
             password: "secret",
           })
           .end((err, res) => {
-            res.should.have.status(400);
+            res.should.have.status(401);
             res.body.should.be.a("object");
 
             const response = res.body;

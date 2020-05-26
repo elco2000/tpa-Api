@@ -46,7 +46,7 @@ module.exports = {
                                 res.status(200).json(userinfo);
                             } else {
                                 logger.info("User not found or password is invalid");
-                                res.status(400).json({
+                                res.status(401).json({
                                     error: "User not found or password is invalid",
                                     datetime: new Date().toISOString(),
                                 });
