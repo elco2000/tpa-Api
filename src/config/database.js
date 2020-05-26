@@ -10,10 +10,6 @@ const connectionString = 'postgres://fyorxhufrtbcmm:52625bdb38facd786144dff7b9a0
 const pool = new Pool({
     connectionString: connectionString,
 })
-pool.query('SELECT NOW()', (err, res) => {
-    console.log(err, res)
-    // pool.end()
-})
 const client = new Client({
     connectionString: connectionString,
 })

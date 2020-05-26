@@ -7,7 +7,7 @@ const logger = require("../config/config").logger;
 module.exports = {
     login(req, res, next) {
                 pool.query(
-                    'SELECT "ID", "First_Name", "Last_Name", "Email", "Password" FROM "user" WHERE "Email" = ?',
+                    'SELECT "ID", "First_Name", "Last_Name", "Email", "Password" FROM "user" WHERE "Email" = $1',
                     [req.body.email],
                     (err, rows, fields) => {
                         // connection.release();
@@ -72,8 +72,6 @@ module.exports = {
                 req.body.email = req.body.email.toLowerCase();
 
                 pool.query(
-                    // 'INSERT INTO "user" ("First_Name", "Last_Name", "Email", "Password", "RoleID") VALUES (?, ?, ?, ?, ?)',
-                    // [firstname, lastname, email, password, 2],
                      'INSERT INTO "user" ("First_Name", "Last_Name", "Email", "Password", "RoleID") VALUES($1, $2, $3, $4, $5)',
                     [firstname, lastname, email, password, 2],
                     (err, rows, fields) => {
