@@ -74,7 +74,7 @@ module.exports = {
                 pool.query(
                     // 'INSERT INTO "user" ("First_Name", "Last_Name", "Email", "Password", "RoleID") VALUES (?, ?, ?, ?, ?)',
                     // [firstname, lastname, email, password, 2],
-                     'INSERT INTO "user" ("First_Name", "Last_Name", "Email", "Password", "RoleID") VALUES($1, $2, $3, $4, $5, $6)',
+                     'INSERT INTO "user" ("First_Name", "Last_Name", "Email", "Password", "RoleID") VALUES($1, $2, $3, $4, $5)',
                     [firstname, lastname, email, password, 2],
                     (err, rows, fields) => {
                         if (err) {
