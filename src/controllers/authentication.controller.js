@@ -72,7 +72,9 @@ module.exports = {
                 req.body.email = req.body.email.toLowerCase();
 
                 pool.query(
-                    'INSERT INTO "user" ("First_Name", "Last_Name", "Email", "Password", "RoleID") VALUES (?, ?, ?, ?, ?)',
+                    // 'INSERT INTO "user" ("First_Name", "Last_Name", "Email", "Password", "RoleID") VALUES (?, ?, ?, ?, ?)',
+                    // [firstname, lastname, email, password, 2],
+                     'INSERT INTO user(First_Name, Last_Name, Email, Password, RoleID) VALUES($1, $2, $3, $4, $5, $6)',
                     [firstname, lastname, email, password, 2],
                     (err, rows, fields) => {
                         if (err) {
@@ -100,7 +102,6 @@ module.exports = {
                     }
                 );
             }
-        // });
     },
 
     validateRegister(req, res, next) {
