@@ -77,18 +77,18 @@ module.exports = {
         logger.info("register");
         logger.info(req.body);
 
-        pool.getConnection((err, connection) => {
-            if (err) {
-                logger.error("Error getting connection from pool: " + err.toString());
-                res
-                    .status(500)
-                    .json({ error: ex.toString(), datetime: new Date().toISOString() });
-            }
-            if (connection) {
+        // pool.getConnection((err, connection) => {
+        //     if (err) {
+        //         logger.error("Error getting connection from pool: " + err.toString());
+        //         res
+        //             .status(500)
+        //             .json({ error: ex.toString(), datetime: new Date().toISOString() });
+        //     }
+            if (true) {
                 let { firstname, lastname, email, password } = req.body;
                 req.body.email = req.body.email.toLowerCase();
 
-                connection.query(
+                pool.query(
                     "INSERT INTO `user` (`First_Name`, `Last_Name`, `Email`, `Password`, `RoleID`) VALUES (?, ?, ?, ?, ?)",
                     [firstname, lastname, email, password, 2],
                     (err, rows, fields) => {
@@ -118,7 +118,7 @@ module.exports = {
                     }
                 );
             }
-        });
+        // });
     },
 
     validateRegister(req, res, next) {
