@@ -19,9 +19,9 @@ module.exports = {
                             });
                         } else {
                             logger.info("Result from database: ");
-                            logger.info(result.rows[0]);
+                            logger.info(result);
 
-                            if (result.rows[0].Password === req.body.password) {
+                            if (result.rows.length >= 1 && result.rows[0].Password === req.body.password) {
                                 logger.info("password = " + result.rows[0].Password);
                                 logger.info("passwords DID match, sending valid token");
                                 const payload = {
@@ -63,23 +63,15 @@ module.exports = {
         logger.info("register");
         logger.info(req.body);
 
-            if (true) {
                 let { firstname, lastname, email, password } = req.body;
-                req.body.email = req.body.email.toLowerCase();
-
                 pool.query(
                      'INSERT INTO "user" ("First_Name", "Last_Name", "Email", "Password", "RoleID") VALUES($1, $2, $3, $4, $5)',
-                    [firstname, lastname, email, password, 2],
+                    [firstname, lastname, email.toLowerCase(), password, 2],
                     (err, rows, fields) => {
                         if (err) {
                             logger.error("Error: " + err);
                             res.status(400).json({
                                 error: "This username has already been taken.",
-                                datetime: new Date().toISOString(),
-                            });
-                        } else if (validateEmail(email) === false) {
-                            res.status(400).json({
-                                error: "This email is wrong.",
                                 datetime: new Date().toISOString(),
                             });
                         } else {
@@ -95,10 +87,15 @@ module.exports = {
                         }
                     }
                 );
-            }
     },
 
     validateRegister(req, res, next) {
+        if (validateEmail(req.body.email) === false) {
+            res.status(400).json({
+                error: "This email is wrong.",
+                datetime: new Date().toISOString(),
+            });
+        } else {
         try {
             assert(
                 typeof req.body.firstname === "string",
@@ -113,12 +110,13 @@ module.exports = {
                 typeof req.body.password === "string",
                 "password must be a string."
             );
+
             next();
         } catch (ex) {
             res
                 .status(400)
                 .json({ error: ex.toString(), datetime: new Date().toISOString() });
-        }
+        } }
     },
 
     validateToken(req, res, next) {

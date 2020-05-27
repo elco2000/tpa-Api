@@ -1,4 +1,4 @@
-process.env.DB_DATABASE = process.env.DB_DATABASE || "tpa_test";
+process.env.DB_DATABASE = process.env.DB_DATABASE || 'postgres://postgres:root@localhost:5432/tpa_test';
 process.env.NODE_ENV = "testing";
 process.env.LOGLEVEL = "error";
 console.log(`Running tests using database '${process.env.DB_DATABASE}'`);
@@ -11,8 +11,8 @@ const pool = require("../../src/config/database");
 chai.should();
 chai.use(chaiHttp);
 
-const CLEAR_DB = "DELETE IGNORE FROM `user`";
-const INSERT_QUERY = "INSERT INTO `user` (`ID`, `First_Name`, `Last_Name`, `Email`, `Password`, `RoleID`) VALUES "+
+const CLEAR_DB = 'DELETE FROM "user"';
+const INSERT_QUERY = 'INSERT INTO "user" ("ID", "First_Name", "Last_Name", "Email", "Password", "RoleID") VALUES '+
 "(1, 'Mark', 'Sander', 'mark@gmail.com', 'secret', 1),"+
 "(2, 'Marci', 'Ngasiman', 'marci@gmail.com', 'supersecret', 2)";
 
@@ -55,7 +55,7 @@ describe("1 Authenticatie", function () {
           .send({
             firstname: "FirstName",
             lastname: "LastName",
-            email: "ditisgeenemail",
+            email: "pietpaulusma",
             password: "secret",
           })
           .end((err, res) => {
