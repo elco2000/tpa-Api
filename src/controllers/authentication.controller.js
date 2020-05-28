@@ -69,7 +69,7 @@ module.exports = {
                 lastname = HTMLDecoderEncoder.decode(lastname);
                 email = HTMLDecoderEncoder.decode(email);
                 password = HTMLDecoderEncoder.decode(password);
-                logger.info(req.body);
+                console.log(req.body);
 
 
                 pool.query(
