@@ -70,7 +70,7 @@ module.exports = {
 
                 pool.query(
                      'INSERT INTO "user" ("First_Name", "Last_Name", "Email", "Password", "RoleID") VALUES($1, $2, $3, $4, $5)',
-                    [decodeURI(firstname), decodeURI(lastname), decodeURI(email.toLowerCase()), decodeURI(password), 2],
+                    [firstname, lastname, email.toLowerCase(), password, 2],
                     (err, rows, fields) => {
                         if (err) {
                             logger.error("Error: " + err);
