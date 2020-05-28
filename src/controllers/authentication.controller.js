@@ -65,16 +65,12 @@ module.exports = {
         logger.info(req.body);
 
                 let { firstname, lastname, email, password } = req.body;
-                firstname = HTMLDecoderEncoder.decode(firstname);
-                lastname = HTMLDecoderEncoder.decode(lastname);
-                email = HTMLDecoderEncoder.decode(email);
-                password = HTMLDecoderEncoder.decode(password);
-                console.log(req.body);
+
 
 
                 pool.query(
                      'INSERT INTO "user" ("First_Name", "Last_Name", "Email", "Password", "RoleID") VALUES($1, $2, $3, $4, $5)',
-                    [firstname, lastname, email.toLowerCase(), password, 2],
+                    [HTMLDecoderEncoder.decode(firstname), HTMLDecoderEncoder.decode(lastname), HTMLDecoderEncoder.decode(email.toLowerCase()), HTMLDecoderEncoder.decode(password), 2],
                     (err, rows, fields) => {
                         if (err) {
                             logger.error("Error: " + err);
