@@ -65,7 +65,10 @@ module.exports = {
         logger.info(req.body);
 
                 let { firstname, lastname, email, password } = req.body;
-                req.body = HTMLDecoderEncoder.decode(req.body);
+                firstname = HTMLDecoderEncoder.decode(firstname);
+                lastname = HTMLDecoderEncoder.decode(lastname);
+                email = HTMLDecoderEncoder.decode(email);
+                password = HTMLDecoderEncoder.decode(password);
 
 
                 pool.query(
