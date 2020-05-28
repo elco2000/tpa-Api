@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const pool = require("../config/database");
 const validateEmail = require("../util/emailvalidator");
 const logger = require("../config/config").logger;
+const HTMLDecoderEncoder = require("html-encoder-decoder");
 
 module.exports = {
     login(req, res, next) {
@@ -64,6 +65,9 @@ module.exports = {
         logger.info(req.body);
 
                 let { firstname, lastname, email, password } = req.body;
+                req.body = HTMLDecoderEncoder.decode(req.body);
+
+
                 pool.query(
                      'INSERT INTO "user" ("First_Name", "Last_Name", "Email", "Password", "RoleID") VALUES($1, $2, $3, $4, $5)',
                     [firstname, lastname, email.toLowerCase(), password, 2],
