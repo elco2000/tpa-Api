@@ -174,7 +174,9 @@ module.exports = {
                 } else {
                     logger.trace("results: ", results);
                     res.status(200).json({
-                        result: results.rows,
+                        First_Name: results.rows[0].First_Name,
+                        Last_Name: results.rows[0].Last_Name,
+                        Email: results.rows[0].Email
                     });
                 }
             }
