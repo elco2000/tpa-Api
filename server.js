@@ -4,8 +4,11 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 3000;
 const authenticationroutes = require("./src/routes/authentication.routes");
+const articleroutes = require("./src/routes/article.routes");
 
 app.use("/api", authenticationroutes);
+
+app.use("/api", articleroutes);
 
 
 app.use(function (req, res, next) {
