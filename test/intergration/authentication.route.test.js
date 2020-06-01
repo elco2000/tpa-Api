@@ -237,4 +237,82 @@ describe("1 Authenticatie", function () {
           });
       });
     });
+
+    // describe("1.3 getUserByID - GET /user/:userId", () => {
+    //   // before((done) => {
+    //   //   pool.query(INSERT_QUERY, (err, rows, fields) => {
+    //   //     if (err) {
+    //   //       console.log(`beforeEach CLEAR error: ${err}`);
+    //   //       done(err);
+    //   //     } else {
+    //   //       done();
+    //   //     }
+    //   //   });
+    //   // });
+
+    // //   pool.query(INSERT_QUERY, (error, result) => {
+    // //     if (error) console.log(error);
+    // //     if(result) {
+    // //         chai
+    // //         .request(server)
+    // //         .post("/api/register")
+    // //         .send({
+    // //           firstname: "Mark",
+    // //           lastname: "Sander",
+    // //           email: "mArk@gmail.com",
+    // //           password: "secret",
+    // //         })
+    // //         .end((err, res) => {
+    // //           res.should.have.status(400);
+    // //           res.body.should.be.a("object");
+
+    // //           const response = res.body;
+    // //           response.should.have.property("error").which.is.a("String");
+    // //           response.should.have.property("datetime").which.is.a("String");
+    // //           done();
+    // //         });
+    // //     }
+
+    // // });
+
+    //   it("1.3.1 should throw an error when ID is invalid", (done) => {
+    //     pool.query(INSERT_QUERY, (error, result) => {
+    //           if (error) console.log(error);
+    //           if(result) {
+    //               chai
+
+    //       .request(server)
+    //       .get("/user/999")
+    //       .end((err, res) => {
+    //         res.should.have.status(400);
+    //         res.body.should.be.a("object");
+
+    //         const response = res.body;
+    //         response.should.have.property("error").which.is.a("String");
+    //         response.should.have.property("datetime").which.is.a("String");
+    //         done();
+    //       });
+    //     }
+    //   });
+    //   });
+
+
+    //   it("1.3.1 should throw an error when ID is invalid", (done) => {
+    //     chai
+    //       .request(server)
+    //       .get("/user/1")
+    //       .end((err, res) => {
+    //         res.should.have.status(200);
+    //         res.body.should.be.a("object");
+
+    //         const response = res.body;
+    //         response.should.have.property("error").which.is.a("String");
+    //         response.should.have.property("datetime").which.is.a("String");
+    //         done();
+    //       });
+    //   });
+
+      
+      
+    // });
   });
