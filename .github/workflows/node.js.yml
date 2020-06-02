@@ -40,9 +40,12 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: psql postgres
-    - run: \c tpa
-    - run: \i ../../SQL/tpa_test.sql
+    - run: sudo -u postgres psql -f ../../SQL/tpa_test.sql
+      env:
+        POSTGRES_HOST: postgres
+        POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
+      env:
+          POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
