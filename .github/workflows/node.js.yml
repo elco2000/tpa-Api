@@ -40,7 +40,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: psql -d postgres -f ../../SQL/tpa_test.sql
+    - run: sudo -u postgres psql -f ../../SQL/tpa_test.sql
       working-directory: ./postgres
       env:
         # use postgres for the host here because we have specified a container for the job.
