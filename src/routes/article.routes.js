@@ -8,7 +8,14 @@ router.use(bodyParser.urlencoded({ extended: true }));
 router.post(
   "/article/create",
   authController.validateToken,
+  articleController.validateArticle,
   articleController.createArticle
 );
+
+router.delete(
+    "/article/:articleId/delete",
+    authController.validateToken,
+    articleController.deleteArticle
+)
 
 module.exports = router;
