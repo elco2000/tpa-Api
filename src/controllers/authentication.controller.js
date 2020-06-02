@@ -169,7 +169,6 @@ module.exports = {
                     res.status(404).json({
                         message:
                             "User bestaat niet of er zijn geen Users beschikbaar",
-                        error: error,
                     });
                 } else {
                     logger.trace("results: ", results);
