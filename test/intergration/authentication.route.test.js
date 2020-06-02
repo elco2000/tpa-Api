@@ -276,5 +276,22 @@ describe("1 Authenticatie", function () {
           });
       });
     });
+
+    it("1.3.3 should return error when not signed in", (done) => {
+      jwt.sign({ id: 1 }, "secret", { expiresIn: "2h" }, (err, token) => {
+        chai
+          .request(server)
+          .get("/api/user/1")
+          .set("authorization", "Bearer ")
+          .end((err, res) => {
+            res.should.have.status(401);
+            res.body.should.be.a("object");
+            const response = res.body;
+            response.should.have.property("error").which.is.a("String");
+            response.should.have.property("datetime").which.is.a("String");
+            done();
+          });
+      });
+    });
   });
 });
