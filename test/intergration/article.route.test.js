@@ -18,7 +18,7 @@ const CLEAR_DB_USER = 'DELETE FROM "user"';
 const INSERT_QUERY_ARTICLE =
   'INSERT INTO "article" ("ID", "Name", "Description", "Date", "CategoryID", "Body", "UserID", "TypeID") VALUES ' +
   "(1, 'Nieuw personeel!', 'Nieuwe gezichten op de afdeling!', '2020-05-21', '1', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', 31, 1)," +
-  "(2, 'Oud personeel verlaat de organisatie!', 'Verjonging de nieuwe trend op de werkvloer met gevolg van ontslag van oude personeel.', '2020-05-22', '1', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', 31, 1)";
+  "(2, 'Oud personeel!', 'Verjonging de nieuwe trend op de werkvloer met gevolg van ontslag van oude personeel.', '2020-05-22', '1', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', 31, 1)";
 
 const INSERT_QUERY_USER =
   'INSERT INTO "user" ("ID", "First_Name", "Last_Name", "Email", "Password", "RoleID") VALUES' +
@@ -248,6 +248,67 @@ describe("2 Article", function () {
             userid: 31,
             typeid: 1,
           })
+          .end((err, res) => {
+            res.should.have.status(401);
+            res.body.should.be.a("object");
+            const response = res.body;
+            response.should.have.property("error").which.is.a("String");
+            response.should.have.property("datetime").which.is.a("String");
+            done();
+          });
+      });
+    });
+  });
+
+  describe("2.2 Delete Article - DELETE /api/article/:articleId/delete", () => {
+    it("2.2.1 should return no info when an article is not present", (done) => {
+      jwt.sign({ id: 1 }, "secret", { expiresIn: "2h" }, (err, token) => {
+        chai
+          .request(server)
+          .delete("/api/article/99999/delete")
+          .set("authorization", "Bearer " + token)
+          .end((err, res) => {
+            res.should.have.status(404);
+            res.body.should.be.a("object");
+
+            //const response = res.body;
+            //response.should.have.property("error").which.is.a("String");
+            //response.should.have.property("datetime").which.is.a("String");
+            done();
+          });
+      });
+    });
+
+    it("2.2.2 should return valid info when an article is present", (done) => {
+      jwt.sign({ id: 1 }, "secret", { expiresIn: "2h" }, (err, token) => {
+        pool.query(INSERT_QUERY_ARTICLE, (error, result) => {
+          if (error) console.log(error);
+          if (result) {
+            chai
+              .request(server)
+              .delete("/api/article/1/delete")
+              .set("authorization", "Bearer " + token)
+              .end((err, res) => {
+                res.should.have.status(200);
+                res.body.should.be.a("object");
+
+                //const response = res.body;
+                //response.should.have.property("error").which.is.a("String");
+                //response.should.have.property("datetime").which.is.a("String");
+                done();
+              });
+          }
+          //done(error);
+        });
+      });
+    });
+
+    it("2.2.3 should return an error when not signed in", (done) => {
+      jwt.sign({ id: 1 }, "secret", { expiresIn: "2h" }, (err, token) => {
+        chai
+          .request(server)
+          .delete("/api/article/:articleId/delete")
+          .set("authorization", "Bearer ")
           .end((err, res) => {
             res.should.have.status(401);
             res.body.should.be.a("object");
