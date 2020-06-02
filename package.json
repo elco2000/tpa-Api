@@ -22,6 +22,12 @@
     "pg": "^8.2.1",
     "tracer": "^1.1.2"
   },
+  "prettier": {
+    "semi": true,
+    "singleQuote": false,
+    "tabWidth": 2,
+    "trailingComma": "es5"
+  },
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
