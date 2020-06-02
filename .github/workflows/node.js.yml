@@ -40,7 +40,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: sudo -u postgres psql -f ../../SQL/tpa_test.sql
+    - run: psql -u postgres -f ../../SQL/tpa_test.sql
       env:
         POSTGRES_HOST: postgres
         POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
