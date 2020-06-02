@@ -156,29 +156,28 @@ module.exports = {
         logger.trace("Get aangeroepen op /user/:userId");
         const userId = parseInt(req.params.userId);
 
-        pool.query(
-            'SELECT "First_Name", "Last_Name", "Email" FROM "user" WHERE "ID" = $1',
-            [userId],
-            (error, results, fields) => {
-                if (error) {
-                    res.status(400).json({
-                        message: "GetById Failed!",
-                        error: error,
-                    });
-                } else if (results.length === 0) {
-                    res.status(404).json({
-                        message:
-                            "User bestaat niet of er zijn geen Users beschikbaar",
-                    });
-                } else {
-                    logger.trace("results: ", results);
-                    res.status(200).json({
-                        First_Name: results.rows[0].First_Name,
-                        Last_Name: results.rows[0].Last_Name,
-                        Email: results.rows[0].Email
-                    });
-                }
-            }
-        );
-    }
+    pool.query(
+      'SELECT "First_Name", "Last_Name", "Email" FROM "user" WHERE "ID" = $1',
+      [userId],
+      (error, results, fields) => {
+        if (error) {
+          res.status(400).json({
+            message: "GetById Failed!",
+            error: error,
+          });
+        } else if (results.rowCount === 0 && !error) {
+          res.status(404).json({
+            message: "User bestaat niet of er zijn geen Users beschikbaar",
+          });
+        } else {
+          logger.trace("results: ", results);
+          res.status(200).json({
+            First_Name: results.rows[0].First_Name,
+            Last_Name: results.rows[0].Last_Name,
+            Email: results.rows[0].Email,
+          });
+        }
+      }
+    );
+  },
 };
