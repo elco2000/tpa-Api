@@ -126,4 +126,23 @@ module.exports = {
       }
     );
   },
+
+  getAllArticles(req, res, next) {
+    logger.trace("Get aangeroepen op /article");
+
+    pool.query('SELECT * FROM "article"', [], (err, results, next) => {
+      if (err) {
+        res.status(400).json({
+          message: "GetAll Failed!",
+          error: err,
+        });
+      }
+      if (results) {
+        logger.trace("results: ", results);
+        res.status(200).json({
+          result: results.rows,
+        });
+      }
+    });
+  },
 };
