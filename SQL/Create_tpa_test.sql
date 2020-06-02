@@ -30,7 +30,7 @@ CREATE DATABASE tpa_test
 CREATE TABLE public.role
 (
     "ID" integer NOT NULL,
-    name character varying(32) COLLATE pg_catalog."default" NOT NULL,
+    "Name" character varying(32) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT "PRIMARY" PRIMARY KEY ("ID")
 )
 
@@ -66,10 +66,10 @@ ALTER TABLE ONLY public.role ALTER COLUMN "ID" SET DEFAULT nextval('public."role
 
 CREATE UNIQUE INDEX name00000
     ON public.role USING btree
-    (name COLLATE pg_catalog."default" ASC NULLS LAST)
+    ("Name" COLLATE pg_catalog."default" ASC NULLS LAST)
     TABLESPACE pg_default;
 	
-INSERT INTO public.role ("ID", "name") VALUES
+INSERT INTO public.role ("ID", "Name") VALUES
 ('1', 'Beheerder'),
 ('2', 'Gebruiker');
 
