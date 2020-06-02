@@ -18,4 +18,11 @@ router.delete(
     articleController.deleteArticle
 )
 
+router.put(
+    "/article/:articleId",
+    authController.validateToken,
+    articleController.validateArticle,
+    articleController.updateArticle
+)
+
 module.exports = router;

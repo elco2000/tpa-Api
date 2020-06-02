@@ -6,13 +6,12 @@ const logger = require("../config/config").logger;
 module.exports = {
   validateArticle(req, res, next) {
     try {
-      const { name, description, date, categoryid, body, userid, typeid } = req.body;
+      const { name, description, date, categoryid, body, typeid } = req.body;
       assert(typeof name === "string", "Name is niet juist!");
       assert(typeof description === "string", "Description is niet juist!");
       assert(typeof date === "string", "Date is onjuist ingevuld!");
       assert(typeof categoryid === "number", "Categoryid is niet juist!");
       assert(typeof body === "string", "De body is onjuist ingevuld!");
-      assert(typeof userid === "number", "Userid is niet juist!");
       assert(typeof typeid === "number", "Typeid is niet juist!");
       next();
     } catch (err) {
@@ -26,7 +25,15 @@ module.exports = {
   createArticle(req, res, next) {
     logger.trace("Post aangeroepen op /article/create");
 
-    let { name, description, date, categoryid, body, userid, typeid } = req.body;
+    let {
+      name,
+      description,
+      date,
+      categoryid,
+      body,
+      userid,
+      typeid,
+    } = req.body;
 
     pool.query(
       'INSERT INTO "article" ("Name", "Description", "Date", "CategoryID", "Body", "UserID", "TypeID") VALUES($1, $2, $3, $4, $5, $6, $7)',
@@ -55,32 +62,68 @@ module.exports = {
   },
 
   deleteArticle(req, res, next) {
-      logger.trace("Delete aangeroepen op /article/:articleId/delete")
-      const articleId = parseInt(req.params.articleId)
+    logger.trace("Delete aangeroepen op /article/:articleId/delete");
+    const articleId = parseInt(req.params.articleId);
 
-      pool.query(
-          'DELETE FROM "article" WHERE "ID" = $1',
-          [articleId],
-          (err, results, fields) => {
-              if (results.rowCount === 0 && !err) {
-                  res.status(404).json({
-                      message: "Item not exists",
-                  });
-              }
+    pool.query(
+      'DELETE FROM "article" WHERE "ID" = $1',
+      [articleId],
+      (err, results, fields) => {
+        if (results.rowCount === 0 && !err) {
+          res.status(404).json({
+            message: "Item not exists",
+          });
+        }
 
-              if (err) {
-                  res.status(400).json({
-                      message: "Delete Failed!",
-                      error: err,
-                  });
-              }
-              if (results && results.rowCount > 0) {
-                  logger.trace("results: ", results);
-                  res.status(200).json({
-                      result: "Delete finished!",
-                  });
-              }
-          }
-      )
-  }
+        if (err) {
+          res.status(400).json({
+            message: "Delete Failed!",
+            error: err,
+          });
+        }
+        if (results && results.rowCount > 0) {
+          logger.trace("results: ", results);
+          res.status(200).json({
+            result: "Delete finished!",
+          });
+        }
+      }
+    );
+  },
+
+  updateArticle(req, res, next) {
+    logger.trace("Put aangeroepen op /article/:articleId");
+    let { name, description, date, categoryid, body, typeid } = req.body;
+    const articleId = parseInt(req.params.articleId);
+
+    pool.query(
+      'UPDATE "article" SET "Name" = $1, "Description" = $2, "Date" = $3, "CategoryID" = $4, "Body" = $5, "TypeID" = $6 WHERE "ID" = $7',
+      [name, description, date, categoryid, body, typeid, articleId],
+      (err, results, next) => {
+        if (results.rowCount === 0 && !err) {
+          res.status(400).json({
+            message: "Item not exists",
+          });
+        }
+
+        if (err) {
+          res.status(400).json({
+            message: "Delete Failed!",
+            error: err,
+          });
+        }
+        if (results && results.rowCount > 0) {
+          logger.trace("results: ", results);
+          res.status(200).json({
+            Name: req.body.name,
+            Description: req.body.description,
+            Date: req.body.date,
+            CategoryID: req.body.categoryid,
+            Body: req.body.body,
+            TypeID: req.body.typeid,
+          });
+        }
+      }
+    );
+  },
 };
