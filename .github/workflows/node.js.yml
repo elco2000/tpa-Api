@@ -41,9 +41,12 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: psql -d postgres -f ../../SQL/tpa_test.sql
+      working-directory: ./postgres
       env:
+        # use postgres for the host here because we have specified a container for the job.
+        # If we were running the job on the VM this would be localhost
         POSTGRES_HOST: postgres
-        POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
+        POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
