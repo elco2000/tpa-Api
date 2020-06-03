@@ -75,6 +75,7 @@ module.exports = {
                     logger.error("Error: " + err);
                     res.status(400).json({
                         error: "This username has already been taken.",
+                        error2: err,
                         datetime: new Date().toISOString(),
                     });
                 } else {
