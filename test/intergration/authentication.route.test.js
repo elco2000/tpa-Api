@@ -16,9 +16,9 @@ chai.use(chaiHttp);
 
 const CLEAR_DB = 'DELETE FROM "user"';
 const INSERT_QUERY =
-  'INSERT INTO "user" ("ID", "First_Name", "Last_Name", "Email", "Password", "RoleID") VALUES ' +
-  "(1, 'Mark', 'Sander', 'mark@gmail.com', 'secret', 1)," +
-  "(2, 'Marci', 'Ngasiman', 'marci@gmail.com', 'supersecret', 2)";
+  'INSERT INTO "user" ("ID", "First_Name", "Last_Name", "Email", "Password", "RoleID", "Job", "Sector") VALUES ' +
+  "(1, 'Mark', 'Sander', 'mark@gmail.com', 'secret', 1, 'horseverzorger', 'paardensport')," +
+  "(2, 'Marci', 'Ngasiman', 'marci@gmail.com', 'supersecret', 2, 'horserijder', 'horsesport')";
 
 describe("1 Authenticatie", function () {
   before((done) => {
@@ -282,8 +282,25 @@ describe("1 Authenticatie", function () {
             First_Name.should.be.a("string").that.equals("Mark");
             Last_Name.should.be.a("string").that.equals("Sander");
             Email.should.be.a("string").that.equals("mark@gmail.com");
-            // Job.should.be.a("string").that.equals("Begeleider");
-            // Sector.should.be.a("string").that.equals("Hulp");
+            Job.should.be.a("string").that.equals("horseverzorger");
+            Sector.should.be.a("string").that.equals("paardensport");
+            done();
+          });
+      });
+    });
+
+    it("1.3.3 should return error when not signed in", (done) => {
+      jwt.sign({ id: 1 }, "secret", { expiresIn: "2h" }, (err, token) => {
+        chai
+          .request(server)
+          .get("/api/user/1")
+          .set("authorization", "Bearer ")
+          .end((err, res) => {
+            res.should.have.status(401);
+            res.body.should.be.a("object");
+            const response = res.body;
+            response.should.have.property("error").which.is.a("String");
+            response.should.have.property("datetime").which.is.a("String");
             done();
           });
       });
