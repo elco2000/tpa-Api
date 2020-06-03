@@ -108,7 +108,7 @@ module.exports = {
 
         if (err) {
           res.status(400).json({
-            message: "Delete Failed!",
+            message: "Update Failed!",
             error: err,
           });
         }
@@ -128,9 +128,25 @@ module.exports = {
   },
 
   getAllArticles(req, res, next) {
-    logger.trace("Get aangeroepen op /article");
+    logger.trace("Get aangeroepen op /article/");
+    const type = req.query.type;
+    const category = req.query.category;
+    let info = [];
+    let sqlQuery;
 
-    pool.query('SELECT * FROM "article"', [], (err, results, next) => {
+    if (type && !category) {
+      sqlQuery = 'SELECT "article".*, "type"."Name" AS "type", "category"."Name" AS "category" FROM "article" INNER JOIN "category" ON "article"."CategoryID" = "category"."ID" INNER JOIN "type" ON "article"."TypeID" = "type"."ID" WHERE "type"."ID" = $1'
+      info = [type]
+    } else if (category && !type) {
+      sqlQuery = 'SELECT "article".*, "type"."Name" AS "type", "category"."Name" AS "category" FROM "article" INNER JOIN "category" ON "article"."CategoryID" = "category"."ID" INNER JOIN "type" ON "article"."TypeID" = "type"."ID" WHERE "category"."ID" = $1'
+      info = [category]
+    } else if (!type && !category) {
+      sqlQuery = 'SELECT "article".*, "type"."Name" AS "type", "category"."Name" AS "category" FROM "article" INNER JOIN "category" ON "article"."CategoryID" = "category"."ID" INNER JOIN "type" ON "article"."TypeID" = "type"."ID"'
+      info = []
+    }
+
+
+    pool.query(sqlQuery, info, (err, results, next) => {
       if (err) {
         res.status(400).json({
           message: "GetAll Failed!",
