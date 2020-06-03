@@ -64,12 +64,12 @@ module.exports = {
         logger.info("register");
         logger.info(req.body);
 
-        let {firstname, lastname, email, password} = req.body;
+        let {firstname, lastname, email, password, job, sector} = req.body;
 
 
         pool.query(
-            'INSERT INTO "user" ("First_Name", "Last_Name", "Email", "Password", "RoleID") VALUES($1, $2, $3, $4, $5)',
-            [firstname, lastname, email.toLowerCase(), password, 2],
+            'INSERT INTO "user" ("First_Name", "Last_Name", "Email", "Password", "RoleID", "Job", "Sector") VALUES($1, $2, $3, $4, $5, $6, $7)',
+            [firstname, lastname, email.toLowerCase(), password, 2, job, sector],
             (err, rows, fields) => {
                 if (err) {
                     logger.error("Error: " + err);
@@ -157,7 +157,7 @@ module.exports = {
         const userId = parseInt(req.params.userId);
 
     pool.query(
-      'SELECT "First_Name", "Last_Name", "Email" FROM "user" WHERE "ID" = $1',
+      'SELECT "First_Name", "Last_Name", "Email", "Job", "Sector" FROM "user" WHERE "ID" = $1',
       [userId],
       (error, results, fields) => {
         if (error) {
@@ -175,6 +175,8 @@ module.exports = {
             First_Name: results.rows[0].First_Name,
             Last_Name: results.rows[0].Last_Name,
             Email: results.rows[0].Email,
+            Job: results.rows[0].Job,
+            Sector: results.rows[0].Sector,
           });
         }
       }
