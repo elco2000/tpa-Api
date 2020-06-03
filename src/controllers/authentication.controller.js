@@ -113,6 +113,14 @@ module.exports = {
                     typeof req.body.password === "string",
                     "password must be a string."
                 );
+                assert(
+                    typeof req.body.job === "string",
+                    "job must be a string"
+                )
+                assert(
+                    typeof req.body.sector === "string",
+                    "sector must be a string"
+                )
 
                 next();
             } catch (ex) {

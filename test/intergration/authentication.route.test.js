@@ -40,6 +40,8 @@ describe("1 Authenticatie", function () {
           lastname: "LastName ",
           email: "test@test.nl",
           password: "secret",
+          job: "Begeleider",
+          sector: "Hulp",
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -61,6 +63,8 @@ describe("1 Authenticatie", function () {
           lastname: "LastName",
           email: "pietpaulusma",
           password: "secret",
+          job: "Begeleider",
+          sector: "Hulp",
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -82,6 +86,8 @@ describe("1 Authenticatie", function () {
           lastname: "LastName",
           email: "test@test.nl",
           password: 1245,
+          job: "Begeleider",
+          sector: "Hulp",
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -106,6 +112,8 @@ describe("1 Authenticatie", function () {
               lastname: "Sander",
               email: "mArk@gmail.com",
               password: "secret",
+              job: "Begeleider",
+              sector: "Hulp",
             })
             .end((err, res) => {
               res.should.have.status(400);
@@ -129,6 +137,8 @@ describe("1 Authenticatie", function () {
           lastname: "LastName",
           email: "dutch@test.nl",
           password: "secret",
+          job: "Begeleider",
+          sector: "Hulp",
         })
         .end((err, res) => {
           res.should.have.status(200);
@@ -272,6 +282,8 @@ describe("1 Authenticatie", function () {
             First_Name.should.be.a("string").that.equals("Mark");
             Last_Name.should.be.a("string").that.equals("Sander");
             Email.should.be.a("string").that.equals("mark@gmail.com");
+            Job.should.be.a("string").that.equals("Begeleider");
+            Sector.should.be.a("string").that.equals("Hulp");
             done();
           });
       });
