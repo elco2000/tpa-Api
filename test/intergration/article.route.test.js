@@ -427,4 +427,169 @@ describe("2 Article", function () {
       });
     });
   });
+
+  describe("2.4 show Article - GET /api/article", () => {
+    it("2.4.1 should provide valid info when type is valid", (done) => {
+      jwt.sign({ id: 1 }, "secret", { expiresIn: "2h" }, (err, token) => {
+        chai
+          .request(server)
+          .get("/api/article/?type=1")
+          .set("authorization", "Bearer " + token)
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.be.a("object");
+
+            //const response = res.body;
+            //response.should.have.property("message").which.is.a("String");
+            //response.should.have.property("error").which.is.a("String");
+            //response.should.have.propert y("datetime").which.is.a("String");
+            let response = res.body.result[0];
+            response.should.have.property("ID").which.is.a("number");
+            response.should.have.property("Name").which.is.a("String");
+            response.should.have.property("Description").which.is.a("String");
+            response.should.have.property("Date").which.is.a("String");
+            response.should.have.property("CategoryID").which.is.a("number");
+            response.should.have.property("Body").which.is.a("String");
+            response.should.have.property("UserID").which.is.a("number");
+            response.should.have.property("TypeID").which.is.a("number");
+            response.should.have.property("type").which.is.a("String");
+            response.should.have.property("category").which.is.a("String");
+
+            done();
+          });
+      });
+    });
+
+    it("2.4.2 should provide invalid info when type is invalid", (done) => {
+      jwt.sign({ id: 1 }, "secret", { expiresIn: "2h" }, (err, token) => {
+        chai
+          .request(server)
+          .get("/api/article/?type=q")
+          .set("authorization", "Bearer " + token)
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.should.be.a("object");
+            const response = res.body;
+            response.should.have.property("error").which.is.a("object");
+            response.should.have.property("message").which.is.a("String");
+            done();
+          });
+      });
+    });
+
+    it("2.4.3 should provide valid info when category is valid", (done) => {
+      jwt.sign({ id: 1 }, "secret", { expiresIn: "2h" }, (err, token) => {
+        chai
+          .request(server)
+          .get("/api/article/?category=1")
+          .set("authorization", "Bearer " + token)
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.be.a("object");
+
+            //const response = res.body;
+            //response.should.have.property("message").which.is.a("String");
+            //response.should.have.property("error").which.is.a("String");
+            //response.should.have.propert y("datetime").which.is.a("String");
+            let response = res.body.result[0];
+            response.should.have.property("ID").which.is.a("number");
+            response.should.have.property("Name").which.is.a("String");
+            response.should.have.property("Description").which.is.a("String");
+            response.should.have.property("Date").which.is.a("String");
+            response.should.have.property("CategoryID").which.is.a("number");
+            response.should.have.property("Body").which.is.a("String");
+            response.should.have.property("UserID").which.is.a("number");
+            response.should.have.property("TypeID").which.is.a("number");
+            response.should.have.property("type").which.is.a("String");
+            response.should.have.property("category").which.is.a("String");
+
+            done();
+          });
+      });
+    });
+
+    it("2.4.4 should provide invalid info when category is invalid", (done) => {
+      jwt.sign({ id: 1 }, "secret", { expiresIn: "2h" }, (err, token) => {
+        chai
+          .request(server)
+          .get("/api/article/?category=q")
+          .set("authorization", "Bearer " + token)
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.should.be.a("object");
+            const response = res.body;
+            response.should.have.property("error").which.is.a("object");
+            response.should.have.property("message").which.is.a("String");
+            done();
+          });
+      });
+    });
+
+    it("2.4.5 should provide valid info when category or type is not provided", (done) => {
+      jwt.sign({ id: 1 }, "secret", { expiresIn: "2h" }, (err, token) => {
+        chai
+          .request(server)
+          .get("/api/article/")
+          .set("authorization", "Bearer " + token)
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.be.a("object");
+
+            //const response = res.body;
+            //response.should.have.property("message").which.is.a("String");
+            //response.should.have.property("error").which.is.a("String");
+            //response.should.have.propert y("datetime").which.is.a("String");
+            let response = res.body.result[0];
+            response.should.have.property("ID").which.is.a("number");
+            response.should.have.property("Name").which.is.a("String");
+            response.should.have.property("Description").which.is.a("String");
+            response.should.have.property("Date").which.is.a("String");
+            response.should.have.property("CategoryID").which.is.a("number");
+            response.should.have.property("Body").which.is.a("String");
+            response.should.have.property("UserID").which.is.a("number");
+            response.should.have.property("TypeID").which.is.a("number");
+            response.should.have.property("type").which.is.a("String");
+            response.should.have.property("category").which.is.a("String");
+
+            done();
+          });
+      });
+    });
+
+    it("2.4.5 should provide valid info when category or type is not provided and database is empty", (done) => {
+      jwt.sign({ id: 1 }, "secret", { expiresIn: "2h" }, (err, token) => {
+        pool.query(CLEAR_DB, (error, result) => {
+          if (error) console.log(error);
+          if (result) {
+            chai
+              .request(server)
+              .get("/api/article/")
+              .set("authorization", "Bearer " + token)
+              .end((err, res) => {
+                res.should.have.status(200);
+                res.body.should.be.a("object");
+                done();
+              });
+          }
+        });
+      });
+    });
+
+    it("2.4.6 should return an error when not signed in", (done) => {
+      jwt.sign({ id: 1 }, "secret", { expiresIn: "2h" }, (err, token) => {
+        chai
+          .request(server)
+          .get("/api/article/")
+          .set("authorization", "Bearer ")
+          .end((err, res) => {
+            res.should.have.status(401);
+            res.body.should.be.a("object");
+            const response = res.body;
+            response.should.have.property("error").which.is.a("String");
+            response.should.have.property("datetime").which.is.a("String");
+            done();
+          });
+      });
+    });
+  });
 });
