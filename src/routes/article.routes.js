@@ -25,4 +25,10 @@ router.put(
     articleController.updateArticle
 )
 
+router.get(
+    "/article",
+    authController.validateToken,
+    articleController.getAllArticles
+)
+
 module.exports = router;
