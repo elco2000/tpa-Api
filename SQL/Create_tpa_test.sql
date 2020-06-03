@@ -93,6 +93,8 @@ CREATE TABLE public."user"
     "Email" character varying(32) COLLATE pg_catalog."default" NOT NULL,
     "Password" character varying(192) COLLATE pg_catalog."default" NOT NULL,
     "RoleID" integer NOT NULL,
+	"Job" character varying(55) COLLATE pg_catalog."default",
+    "Sector" character varying(55) COLLATE pg_catalog."default",
     CONSTRAINT "PRIMARY00000" PRIMARY KEY ("ID"),
     CONSTRAINT constraint_fk_userrole FOREIGN KEY ("RoleID")
         REFERENCES public.role ("ID") MATCH SIMPLE
@@ -128,10 +130,10 @@ ALTER TABLE ONLY public."user" ALTER COLUMN "ID" SET DEFAULT nextval('public."us
 
 
 
-INSERT INTO public."user" ("ID", "First_Name", "Last_Name", "Email", "Password", "RoleID") VALUES 
-(10, 'Elco', 'Mussert', 'elcomussert@gmail.com', 1234,	1),
-(11, 'Jorik', 'Leemans', 'jorik@gmail.com', 123,	1),
-(12, 'Piet', 'Van der Velden', 'piet@gmail.com', 1234,	2);
+INSERT INTO public."user" ("ID", "First_Name", "Last_Name", "Email", "Password", "RoleID", "Job", "Sector") VALUES 
+(10, 'Elco', 'Mussert', 'elcomussert@gmail.com', 1234,	1, 'Psychiater', 'Verslaving'),
+(11, 'Jorik', 'Leemans', 'jorik@gmail.com', 123,	1, 'Manager', 'Gehandicapte zorg'),
+(12, 'Piet', 'Van der Velden', 'piet@gmail.com', 1234,	2, 'Customer service', 'Verstandelijke beperking');
 
 SELECT pg_catalog.setval('public."user_ID_seq"', 13, false);
 
