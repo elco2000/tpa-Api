@@ -41,7 +41,14 @@ describe("2 Article", function () {
                 console.log(`beforeEach CLEAR error: ${err}`);
                 done(err);
               } else {
-                done();
+                pool.query(INSERT_QUERY_ARTICLE, (err, rows, fields) => {
+                  if (err) {
+                    console.log(`beforeEach CLEAR error: ${err}`);
+                    done(err);
+                  } else {
+                    done();
+                  }
+                });
               }
             });
           }
@@ -281,25 +288,24 @@ describe("2 Article", function () {
 
     it("2.2.2 should return valid info when an article is present", (done) => {
       jwt.sign({ id: 1 }, "secret", { expiresIn: "2h" }, (err, token) => {
-        pool.query(INSERT_QUERY_ARTICLE, (error, result) => {
-          if (error) console.log(error);
-          if (result) {
-            chai
-              .request(server)
-              .delete("/api/article/1/delete")
-              .set("authorization", "Bearer " + token)
-              .end((err, res) => {
-                res.should.have.status(200);
-                res.body.should.be.a("object");
-
-                //const response = res.body;
-                //response.should.have.property("error").which.is.a("String");
-                //response.should.have.property("datetime").which.is.a("String");
-                done();
-              });
-          }
-          //done(error);
-        });
+        // pool.query(INSERT_QUERY_ARTICLE, (error, result) => {
+        //   if (error) console.log(error);
+        //   if (result) {
+        chai
+          .request(server)
+          .delete("/api/article/1/delete")
+          .set("authorization", "Bearer " + token)
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.be.a("object");
+            //const response = res.body;
+            //response.should.have.property("error").which.is.a("String");
+            //response.should.have.property("datetime").which.is.a("String");
+            done();
+          });
+        //   }
+        //   //done(error);
+        // });
       });
     });
 
@@ -309,6 +315,107 @@ describe("2 Article", function () {
           .request(server)
           .delete("/api/article/:articleId/delete")
           .set("authorization", "Bearer ")
+          .end((err, res) => {
+            res.should.have.status(401);
+            res.body.should.be.a("object");
+            const response = res.body;
+            response.should.have.property("error").which.is.a("String");
+            response.should.have.property("datetime").which.is.a("String");
+            done();
+          });
+      });
+    });
+  });
+
+  describe("2.3 update Article - PUT /api/article/:articleId", () => {
+    it("2.3.1 should return no info when an article is not present", (done) => {
+      jwt.sign({ id: 1 }, "secret", { expiresIn: "2h" }, (err, token) => {
+        chai
+          .request(server)
+          .put("/api/article/99999")
+          .set("authorization", "Bearer " + token)
+          .send({
+            name: "title",
+            description: "here is some description",
+            date: "2020-01-01",
+            categoryid: 1,
+            body: "here is the body",
+            typeid: 1,
+          })
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.should.be.a("object");
+
+            //const response = res.body;
+            //response.should.have.property("error").which.is.a("String");
+            //response.should.have.property("datetime").which.is.a("String");
+            done();
+          });
+      });
+    });
+
+    it("2.3.2 should succesfully edit info when an article is present", (done) => {
+      jwt.sign({ id: 1 }, "secret", { expiresIn: "2h" }, (err, token) => {
+        // pool.query(INSERT_QUERY_ARTICLE, (error, result) => {
+        //   if (error) console.log(error);
+        //   if (result) {
+        chai
+          .request(server)
+          .put("/api/article/2")
+          .set("authorization", "Bearer " + token)
+          .send({
+            name: "title",
+            description: "here is some description",
+            date: "2020-01-01",
+            categoryid: 1,
+            body: "here is the body",
+            typeid: 1,
+          })
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.be.a("object");
+
+            let response = res.body;
+
+            response.should.have.property("Name").which.is.a("String");
+            response.should.have.property("Description").which.is.a("String");
+            response.should.have.property("Date").which.is.a("String");
+            response.should.have.property("CategoryID").which.is.a("number");
+            response.should.have.property("Body").which.is.a("String");
+            response.should.have.property("TypeID").which.is.a("number");
+
+            // response.name.should.be.a("String");
+            // response.description.should.be.a("String");
+            // response.date.should.be.a("String");
+            // response.categoryid.should.be.a("number");
+            // response.body.should.be.a("String");
+            // response.typeid.should.be.a("number");
+
+            //const response = res.body;
+            //response.should.have.property("error").which.is.a("String");
+            //response.should.have.property("datetime").which.is.a("String");
+            done();
+          });
+        //   }
+        // });
+      });
+    });
+
+    it("2.3.3 should return an error when not signed in", (done) => {
+      jwt.sign({ id: 1 }, "secret", { expiresIn: "2h" }, (err, token) => {
+        chai
+          .request(server)
+          .put("/api/article/1")
+          .set("authorization", "Bearer ")
+          .send({
+            name: "title",
+            description: "here is some description",
+            date: "2020-01-01",
+            categoryid: 1,
+            body: "here is the body",
+            userid: 31,
+            typeid: 1,
+          })
           .end((err, res) => {
             res.should.have.status(401);
             res.body.should.be.a("object");
