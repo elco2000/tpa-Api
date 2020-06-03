@@ -21,8 +21,8 @@ const INSERT_QUERY_ARTICLE =
   "(2, 'Oud personeel!', 'Verjonging de nieuwe trend op de werkvloer met gevolg van ontslag van oude personeel.', '2020-05-22', '1', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', 31, 1)";
 
 const INSERT_QUERY_USER =
-  'INSERT INTO "user" ("ID", "First_Name", "Last_Name", "Email", "Password", "RoleID") VALUES' +
-  "(31, 'Bob', 'Versijder', 'mark@gmail.com', 'secret', 1)";
+  'INSERT INTO "user" ("ID", "First_Name", "Last_Name", "Email", "Password", "RoleID", "Job", "Sector") VALUES' +
+  "(31, 'Bob', 'Versijder', 'mark@gmail.com', 'secret', 1, 'horseverzorger', 'peardensport')";
 
 describe("2 Article", function () {
   before((done) => {
