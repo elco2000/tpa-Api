@@ -6,10 +6,10 @@ const logger = require("../config/config").logger;
 module.exports = {
   validateArticle(req, res, next) {
     try {
-      const { name, description, date, categoryid, body, typeid } = req.body;
+      let { name, description, date, categoryid, body, typeid } = req.body;
 
-      parseInt(categoryid)
-      parseInt(typeid)
+      // categoryid = parseInt(categoryid)
+      // typeid = parseInt(typeid)
 
       assert(typeof name === "string", "Name is niet juist!");
       assert(typeof description === "string", "Description is niet juist!");

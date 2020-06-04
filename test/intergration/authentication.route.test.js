@@ -272,7 +272,7 @@ describe("1 Authenticatie", function () {
         chai
           .request(server)
           .get("/api/user/1")
-          .zset("authorization", "Bearer " + token)
+          .set("authorization", "Bearer " + token)
           .end((err, res) => {
             res.should.have.status(200);
             res.body.should.be.a("object");
