@@ -159,9 +159,9 @@ module.exports = {
       }
       if (results) {
         logger.trace("results: ", results);
-        res.status(200).json({
-          result: results.rows,
-        });
+        res.status(200).json(
+            [results.rows]
+        );
       }
     });
   },
