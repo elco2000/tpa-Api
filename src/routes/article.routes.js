@@ -27,7 +27,6 @@ router.put(
 
 router.get(
     "/article",
-    authController.validateToken,
     articleController.getAllArticles
 )
 
