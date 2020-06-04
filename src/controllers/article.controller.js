@@ -14,9 +14,9 @@ module.exports = {
       assert(typeof name === "string", "Name is niet juist!");
       assert(typeof description === "string", "Description is niet juist!");
       assert(typeof date === "string", "Date is onjuist ingevuld!");
-      assert(typeof categoryid === "number", "Categoryid is niet juist!");
+      // assert(typeof categoryid === "number", "Categoryid is niet juist!");
       assert(typeof body === "string", "De body is onjuist ingevuld!");
-      assert(typeof typeid === "number", "Typeid is niet juist!");
+      // assert(typeof typeid === "number", "Typeid is niet juist!");
       next();
     } catch (err) {
       res.status(400).json({
