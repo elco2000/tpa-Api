@@ -283,6 +283,16 @@ ALTER SEQUENCE public."article_ID_seq" OWNED BY public.article."ID";
 
 
 ALTER TABLE ONLY public.article ALTER COLUMN "ID" SET DEFAULT nextval('public."article_ID_seq"'::regclass);
+
+
+INSERT INTO public."article" ("ID", "Name", "Description", "Date", "CategoryID", "Body", "UserID", "TypeID") VALUES 
+(1, 'ArticleTest1', 'Dit is de beschrijving van Test1', '2020-05-06', 1, 'Dit is de Body van Test1', 12, 2),
+(2, 'ArticleTest2', 'Dit is de beschrijving van Test2', '2000-12-18', 1, 'Dit is de Body van Test2', 11, 1);
+
+SELECT pg_catalog.setval('public."category_ID_seq"', 3, false);
+
+
+
 --ALTER TABLE public.article
 --    OWNER to "Jorik";
 -- Index: Email00001
