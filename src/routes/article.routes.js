@@ -30,4 +30,9 @@ router.get(
     articleController.getAllArticles
 )
 
+router.get(
+    "/article/search/:articleSearchName",
+    articleController.getSearchArticles
+)
+
 module.exports = router;

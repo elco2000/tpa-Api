@@ -165,4 +165,33 @@ module.exports = {
       }
     });
   },
+
+  getSearchArticles(req, res, next) {
+    logger.trace("Get aangeroepen op /article/search/:articleSearchName")
+    const articleSearchName = req.params.articleSearchName
+
+    pool.query(
+        'SELECT "article".*, "type"."Name" AS "type", "category"."Name" AS "category" FROM "article" INNER JOIN "category" ON "article"."CategoryID" = "category"."ID" INNER JOIN "type" ON "article"."TypeID" = "type"."ID" WHERE "article"."Name" LIKE $1',
+        [`%${articleSearchName}%`],
+        (err, results, next) => {
+          if (err) {
+            res.status(400).json({
+              message: "GetSearch Failed!",
+              error: err,
+            })
+          }
+          if (results.rows.length === 0 && !err) {
+            res.status(400).json({
+              message: "Items not exists",
+            });
+          }
+          if (results && results.rows.length > 0) {
+            logger.trace("results: ", results)
+            res.status(200).json({
+              result: results.rows,
+            })
+          }
+    }
+    )
+  }
 };
