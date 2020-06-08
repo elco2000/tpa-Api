@@ -403,8 +403,7 @@ describe("2 Article", function () {
   });
 
   describe("2.4 show Article - GET /api/article", () => {
-
-    it("2.4.2 should provide invalid info when type is invalid", (done) => {
+    it("2.4.1 should provide invalid info when type is invalid", (done) => {
       jwt.sign({ id: 1 }, "secret", { expiresIn: "2h" }, (err, token) => {
         chai
           .request(server)
@@ -421,7 +420,7 @@ describe("2 Article", function () {
       });
     });
 
-    it("2.4.4 should provide invalid info when category is invalid", (done) => {
+    it("2.4.2 should provide invalid info when category is invalid", (done) => {
       jwt.sign({ id: 1 }, "secret", { expiresIn: "2h" }, (err, token) => {
         chai
           .request(server)
@@ -438,7 +437,7 @@ describe("2 Article", function () {
       });
     });
 
-    it("2.4.5 should provide valid info when category or type is not provided and database is empty", (done) => {
+    it("2.4.3 should provide valid info when category or type is not provided and database is empty", (done) => {
       jwt.sign({ id: 1 }, "secret", { expiresIn: "2h" }, (err, token) => {
         pool.query(CLEAR_DB, (error, result) => {
           if (error) console.log(error);
@@ -456,21 +455,37 @@ describe("2 Article", function () {
         });
       });
     });
+  });
 
-    it("2.4.6 should return an error when not signed in", (done) => {
-      jwt.sign({ id: 1 }, "secret", { expiresIn: "2h" }, (err, token) => {
-        chai
-          .request(server)
-          .get("/api/article/")
-          .set("authorization", "Bearer ")
-          .end((err, res) => {
-            res.should.have.status(401);
-            res.body.should.be.a("object");
-            const response = res.body;
-            response.should.have.property("error").which.is.a("String");
-            response.should.have.property("datetime").which.is.a("String");
-            done();
-          });
+  describe("2.5 Search article with name - GET /article/search/:articleSearchName", () => {
+    it("2.5.1 should return an message when there are no results", (done) => {
+      chai
+        .request(server)
+        .get("/api/article/search/autoachtbaan")
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.be.a("object");
+
+          const response = res.body;
+          response.should.have.property("message").which.is.a("String");
+          done();
+        });
+    });
+
+    it("2.5.2 should return valid information when there is a result", (done) => {
+      pool.query(INSERT_QUERY_ARTICLE, (error, result) => {
+        if (error) console.log(error);
+        if (result) {
+          chai
+            .request(server)
+            .get("/api/article/search/personeel")
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a("object");
+
+              done();
+            });
+        }
       });
     });
   });
