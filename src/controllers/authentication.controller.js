@@ -165,7 +165,7 @@ module.exports = {
         const userId = parseInt(req.params.userId);
 
     pool.query(
-      'SELECT "First_Name", "Last_Name", "Email", "Job", "Sector" FROM "user" WHERE "ID" = $1',
+      'SELECT "First_Name", "Last_Name", "Email", "Job", "Sector", "RoleID" FROM "user" WHERE "ID" = $1',
       [userId],
       (error, results, fields) => {
         if (error) {
@@ -185,6 +185,7 @@ module.exports = {
             Email: results.rows[0].Email,
             Job: results.rows[0].Job,
             Sector: results.rows[0].Sector,
+            RoleID: results.rows[0].RoleID,
           });
         }
       }

@@ -278,12 +278,13 @@ describe("1 Authenticatie", function () {
             res.body.should.be.a("object");
 
             let response = res.body;
-            let { First_Name, Last_Name, Email, Job, Sector } = response;
+            let { First_Name, Last_Name, Email, Job, Sector, RoleID } = response;
             First_Name.should.be.a("string").that.equals("Mark");
             Last_Name.should.be.a("string").that.equals("Sander");
             Email.should.be.a("string").that.equals("mark@gmail.com");
             Job.should.be.a("string").that.equals("horseverzorger");
             Sector.should.be.a("string").that.equals("paardensport");
+            RoleID.should.be.a("number").that.equals(1);
             done();
           });
       });
